@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Filtres d’image</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap"><span class="brand">Filtres d’image</span></div>
+</header>
+
+<main class="wrap">
+  <section class="panel" aria-labelledby="c1">
+    <h2 id="c1">Image et filtre</h2>
+    <div class="row">
+      <label class="btn soft">Choisir une photo
+        <input id="file" type="file" accept="image/*" hidden>
+      </label>
+      <button id="cameraBtn" class="btn soft" type="button">Prendre une photo</button>
+      <input id="camera" type="file" accept="image/*" capture="environment" hidden>
+      <button id="sample" class="btn soft" type="button">Image de test</button>
+      <label class="field">Côté max
+        <select id="maxside">
+          <option value="1024">1 024 px</option>
+          <option value="2048" selected>2 048 px</option>
+          <option value="3000">3 000 px</option>
+          <option value="4000">4 000 px</option>
+        </select>
+      </label>
+    </div>
+    <div class="row">
+      <label class="field">Filtre
+        <select id="filter">
+          <option value="blur">Flou gaussien (lourd)</option>
+          <option value="sobel">Contours (Sobel)</option>
+          <option value="sepia">Sépia</option>
+          <option value="grayscale">Niveaux de gris</option>
+        </select>
+      </label>
+      <label class="field" id="radiusField">Rayon du flou : <output id="radiusOut">8</output>
+        <input id="radius" type="range" min="1" max="20" value="8">
+      </label>
+      <label class="field">Répétitions
+        <select id="runs"><option>1</option><option>3</option><option selected>5</option><option>10</option></select>
+      </label>
+    </div>
+    <canvas id="preview" class="preview" aria-label="Aperçu de l’image" hidden></canvas>
+    <p id="info" class="muted">Aucune image chargée.</p>
+  </section>
+
+  <section aria-labelledby="c2">
+    <div class="duel-head">
+      <h2 id="c2">Résultat</h2>
+      <button id="compare" class="btn primary" type="button" disabled>Comparer</button>
+    </div>
+    <p id="status" class="muted" role="status"></p>
+    <div id="verdict" class="verdict" hidden></div>
+
+    <div class="duel">
+      <article class="card" id="cardJs">
+        <h3>JavaScript</h3>
+                <div class="ph" id="phJs">En attente de la comparaison</div>
+        <canvas id="canvasJs" aria-label="Résultat JavaScript" hidden></canvas>
+        <div class="time"><b id="timeJs">–</b><span> ms</span></div>
+        <div class="track"><i id="barJs"></i></div>
+        <p class="muted" id="metaJs">Moyenne sur les répétitions</p>
+        <button id="runJs" class="btn soft" type="button" disabled>Lancer JavaScript</button>
+      </article>
+
+      <div class="vs" aria-hidden="true">vs</div>
+
+      <article class="card wasm" id="cardWasm">
+        <h3>WebAssembly</h3>
+                <div class="ph" id="phWasm">En attente de la comparaison</div>
+        <canvas id="canvasWasm" aria-label="Résultat WebAssembly" hidden></canvas>
+        <div class="time"><b id="timeWasm">–</b><span> ms</span></div>
+        <div class="track"><i id="barWasm"></i></div>
+        <p class="muted" id="metaWasm">Moyenne sur les répétitions</p>
+        <button id="runWasm" class="btn soft" type="button" disabled>Lancer WebAssembly</button>
+      </article>
+    </div>
+    <button id="toggle" class="btn ghost" type="button" disabled>Voir l’image originale</button>
+  </section>
+
+  <section class="panel" aria-labelledby="c3">
+    <h2 id="c3">Historique</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>Filtre</th><th>Taille</th><th>JS (ms)</th><th>Wasm (ms)</th><th>Gain</th></tr></thead>
+      <tbody id="history"><tr><td colspan="5" class="muted">Aucune mesure pour l’instant.</td></tr></tbody>
+    </table></div>
+    <button id="copy" class="btn ghost" type="button">Copier en CSV</button>
+  </section>
+</main>
+
+<div id="camBox" class="cam" role="dialog" aria-label="Caméra" hidden>
+  <div class="cam-inner">
+    <video id="video" autoplay playsinline muted></video>
+    <div class="row">
+      <button id="snap" class="btn primary" type="button">Capturer</button>
+      <button id="camClose" class="btn ghost" type="button">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<footer class="wrap"><p id="device" class="muted"></p></footer>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

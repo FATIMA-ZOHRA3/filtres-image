@@ -1,0 +1,15 @@
+{
+  "name": "wasm-filtre-demo",
+  "version": "1.0.0",
+  "description": "Demo Web mobile : filtres image en JavaScript vs WebAssembly (AssemblyScript)",
+  "type": "module",
+  "scripts": {
+    "build": "asc assembly/index.ts -o build/filtre.wasm -O3 --runtime stub --noAssert --initialMemory 2",
+    "test": "node test/test.mjs",
+    "start": "node server.mjs"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.28.20"
+  },
+  "license": "MIT"
+}
